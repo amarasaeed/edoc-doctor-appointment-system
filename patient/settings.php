@@ -47,7 +47,7 @@
     //import database
     include("../connection.php");
     $sqlmain= "select * from patient where pemail=?";
-    $stmt = $database->prepare($sqlmain);
+    $stmt = $conn->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -134,10 +134,10 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                $patientrow = $conn->query("select  * from  patient;");
+                                $doctorrow = $conn->query("select  * from  doctor;");
+                                $appointmentrow =$conn->query("select  * from  appointment where appodate>='$today';");
+                                $schedulerow = $conn->query("select  * from  schedule where scheduledate='$today';");
 
 
                                 ?>

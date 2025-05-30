@@ -40,7 +40,7 @@
     //import database
     include("../connection.php");
     $sqlmain= "select * from patient where pemail=?";
-    $stmt = $database->prepare($sqlmain);
+    $stmt = $conn->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -134,7 +134,7 @@
                     }
 
 
-                $result= $database->query($sqlmain)
+                $result= $conn->query($sqlmain)
 
 
                 ?>

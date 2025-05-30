@@ -45,12 +45,12 @@
         
         $error='<label for="promter" class="form-label"></label>';
 
-        $result= $database->query("select * from webuser where email='$email'");
+        $result= $conn->query("select * from webuser where email='$email'");
         if($result->num_rows==1){
             $utype=$result->fetch_assoc()['usertype'];
             if ($utype=='p'){
                 //TODO
-                $checker = $database->query("select * from patient where pemail='$email' and ppassword='$password'");
+                $checker = $conn->query("select * from patient where pemail='$email' and ppassword='$password'");
                 if ($checker->num_rows==1){
 
 

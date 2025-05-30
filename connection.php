@@ -1,13 +1,13 @@
 <?php
-$servername = "db";
+$servername = "localhost"; // or "127.0.0.1"
 $username = "root";  
 $password = ""; 
-$dbname = "edoc"; 
+$dbname = "edoc"; // <- Make sure this matches your actual DB name exactly
 
-$database = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-if ($database->connect_error) {
-    die("Échec de la connexion : " . $database->connect_error);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>
-

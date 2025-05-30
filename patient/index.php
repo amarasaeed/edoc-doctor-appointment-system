@@ -24,42 +24,63 @@
     
 </head>
 <body>
-    <?php
+ <?php
+session_start();
 
-    //learn from w3schools.com
-
-    session_start();
-
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
-            header("location: ../login.php");
-        }else{
-            $useremail=$_SESSION["user"];
-        }
-
-    }else{
+if (isset($_SESSION["user"])) {
+    if ($_SESSION["user"] == "" || $_SESSION['usertype'] != 'p') {
         header("location: ../login.php");
+    } else {
+        $useremail = $_SESSION["user"];
     }
-    
+} else {
+    header("location: ../login.php");
+}
 
-    //import database
-    include("../connection.php");
+// Import database connection
+include("../connection.php");
 
-    $sqlmain= "select * from patient where pemail=?";
-    $stmt = $database->prepare($sqlmain);
-    $stmt->bind_param("s",$useremail);
-    $stmt->execute();
-    $userrow = $stmt->get_result();
-    $userfetch=$userrow->fetch_assoc();
+// Get patient ID
+$query = "SELECT pid FROM patient WHERE pemail = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("s", $useremail);
+$stmt->execute();
+$result = $stmt->get_result();
+$userid = 0;
 
-    $userid= $userfetch["pid"];
-    $username=$userfetch["pname"];
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $userid = $row["pid"];
+}
+
+// Today's date
+$today = date('Y-m-d');
+
+// Get appointments
+$sqlmain = "SELECT appointment.appoid, schedule.title, doctor.docname, schedule.scheduledate, schedule.scheduletime 
+            FROM schedule 
+            INNER JOIN appointment ON schedule.scheduleid = appointment.scheduleid 
+            INNER JOIN patient ON patient.pid = appointment.pid 
+            INNER JOIN doctor ON schedule.docid = doctor.docid  
+            WHERE patient.pid = ? AND schedule.scheduledate >= ? 
+            ORDER BY schedule.scheduledate ASC";
+
+$stmt = $conn->prepare($sqlmain);
+$stmt->bind_param("is", $userid, $today);
+$stmt->execute();
+$result = $stmt->get_result();
+
+while ($row = $result->fetch_assoc()) {
+    echo '<tr>
+            <td>' . $row["appoid"] . '</td>
+            <td>' . $row["title"] . '</td>
+            <td>' . $row["docname"] . '</td>
+            <td>' . $row["scheduledate"] . ' ' . $row["scheduletime"] . '</td>
+          </tr>';
+}
+?>
 
 
-    //echo $userid;
-    //echo $username;
-    
-    ?>
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">
@@ -135,12 +156,10 @@
                                 $today = date('Y-m-d');
                                 echo $today;
 
-
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
-
+$patientrow = $conn->query("SELECT * FROM patient;");
+$doctorrow = $conn->query("SELECT * FROM doctor;");
+$appointmentrow = $conn->query("SELECT * FROM appointment WHERE appodate >= '$today';");
+$schedulerow = $conn->query("SELECT * FROM schedule WHERE scheduledate = '$today';");
 
                                 ?>
                                 </p>

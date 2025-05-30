@@ -17,78 +17,59 @@
 </head>
 <body>
 <?php
-
-//learn from w3schools.com
-//Unset all the server side variables
-
 session_start();
 
-$_SESSION["user"]="";
-$_SESSION["usertype"]="";
+$_SESSION["user"] = "";
+$_SESSION["usertype"] = "";
 
 // Set the new timezone
 date_default_timezone_set('Asia/Kolkata');
 $date = date('Y-m-d');
+$_SESSION["date"] = $date;
 
-$_SESSION["date"]=$date;
+// Import database
+include("connection.php"); // This sets $conn
 
+if ($_POST) {
+    $result = $conn->query("SELECT * FROM webuser");
 
-//import database
-include("connection.php");
+    $fname = $_SESSION['personal']['fname'];
+    $lname = $_SESSION['personal']['lname'];
+    $name = $fname . " " . $lname;
+    $address = $_SESSION['personal']['address'];
+    $nic = $_SESSION['personal']['nic'];
+    $dob = $_SESSION['personal']['dob'];
+    $email = $_POST['newemail'];
+    $tele = $_POST['tele'];
+    $newpassword = $_POST['newpassword'];
+    $cpassword = $_POST['cpassword'];
 
-
-
-
-
-if($_POST){
-
-    $result= $database->query("select * from webuser");
-
-    $fname=$_SESSION['personal']['fname'];
-    $lname=$_SESSION['personal']['lname'];
-    $name=$fname." ".$lname;
-    $address=$_SESSION['personal']['address'];
-    $nic=$_SESSION['personal']['nic'];
-    $dob=$_SESSION['personal']['dob'];
-    $email=$_POST['newemail'];
-    $tele=$_POST['tele'];
-    $newpassword=$_POST['newpassword'];
-    $cpassword=$_POST['cpassword'];
-    
-    if ($newpassword==$cpassword){
-        $sqlmain= "select * from webuser where email=?;";
-        $stmt = $database->prepare($sqlmain);
-        $stmt->bind_param("s",$email);
+    if ($newpassword == $cpassword) {
+        $sqlmain = "SELECT * FROM webuser WHERE email = ?";
+        $stmt = $conn->prepare($sqlmain);
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-        if($result->num_rows==1){
-            $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>';
-        }else{
-            //TODO
-            $database->query("insert into patient(pemail,pname,ppassword, paddress, pnic,pdob,ptel) values('$email','$name','$newpassword','$address','$nic','$dob','$tele');");
-            $database->query("insert into webuser values('$email','p')");
 
-            //print_r("insert into patient values($pid,'$email','$fname','$lname','$newpassword','$address','$nic','$dob','$tele');");
-            $_SESSION["user"]=$email;
-            $_SESSION["usertype"]="p";
-            $_SESSION["username"]=$fname;
+        if ($result->num_rows == 1) {
+            $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>';
+        } else {
+            $conn->query("INSERT INTO patient (pemail, pname, ppassword, paddress, pnic, pdob, ptel) VALUES ('$email', '$name', '$newpassword', '$address', '$nic', '$dob', '$tele')");
+            $conn->query("INSERT INTO webuser VALUES ('$email', 'p')");
+
+            $_SESSION["user"] = $email;
+            $_SESSION["usertype"] = "p";
+            $_SESSION["username"] = $fname;
 
             header('Location: patient/index.php');
-            $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>';
+            exit;
         }
-        
-    }else{
-        $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Conformation Error! Reconform Password</label>';
+    } else {
+        $error = '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Confirmation Error! Please re-enter your password.</label>';
     }
-
-
-
-    
-}else{
-    //header('location: signup.php');
-    $error='<label for="promter" class="form-label"></label>';
+} else {
+    $error = '<label for="promter" class="form-label"></label>';
 }
-
 ?>
 
 

@@ -40,7 +40,7 @@
     //import database
     include("../connection.php");
     $sqlmain= "select * from patient where pemail=?";
-    $stmt = $database->prepare($sqlmain);
+    $stmt = $conn->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
     $userrow = $stmt->get_result();
@@ -74,7 +74,7 @@
     }
 
     $sqlmain.="order by appointment.appodate  asc";
-    $result= $database->query($sqlmain);
+    $result= $conn->query($sqlmain);
     ?>
     <div class="container">
         <div class="menu">
