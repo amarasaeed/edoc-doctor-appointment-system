@@ -66,7 +66,7 @@
 
             }elseif($utype=='a'){
                 //TODO
-                $checker = $database->query("select * from admin where aemail='$email' and apassword='$password'");
+                $checker = $conn->query("select * from admin where aemail='$email' and apassword='$password'");
                 if ($checker->num_rows==1){
 
 
@@ -83,7 +83,7 @@
 
             }elseif($utype=='d'){
                 //TODO
-                $checker = $database->query("select * from doctor where docemail='$email' and docpassword='$password'");
+                $checker = $conn->query("select * from doctor where docemail='$email' and docpassword='$password'");
                 if ($checker->num_rows==1){
 
 

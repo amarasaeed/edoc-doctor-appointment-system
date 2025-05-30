@@ -47,7 +47,7 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from doctor where docemail='$useremail'");
+    $userrow = $conn->query("select * from doctor where docemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["docid"];
     $username=$userfetch["docname"];
@@ -133,10 +133,10 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                $patientrow = $conn->query("select  * from  patient;");
+                                $doctorrow = $conn->query("select  * from  doctor;");
+                                $appointmentrow = $conn->query("select  * from  appointment where appodate>='$today';");
+                                $schedulerow = $conn->query("select  * from  schedule where scheduledate='$today';");
 
 
                                 ?>
@@ -292,7 +292,7 @@
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
                                             $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc"; 
-                                                $result= $database->query($sqlmain);
+                                                $result= $conn->query($sqlmain);
                 
                                                 if($result->num_rows==0){
                                                     echo '<tr>

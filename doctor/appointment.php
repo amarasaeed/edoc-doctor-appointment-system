@@ -40,7 +40,7 @@
 
        //import database
        include("../connection.php");
-       $userrow = $database->query("select * from doctor where docemail='$useremail'");
+       $userrow = $conn->query("select * from doctor where docemail='$useremail'");
        $userfetch=$userrow->fetch_assoc();
        $userid= $userfetch["docid"];
        $username=$userfetch["docname"];
@@ -120,7 +120,7 @@
                         $today = date('Y-m-d');
                         echo $today;
 
-                        $list110 = $database->query("select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  doctor.docid=$userid ");
+                        $list110 = $conn->query("select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  doctor.docid=$userid ");
 
                         ?>
                         </p>
@@ -250,7 +250,7 @@
                             <?php
 
                                 
-                                $result= $database->query($sqlmain);
+                                $result= $conn->query($sqlmain);
 
                                 if($result->num_rows==0){
                                     echo '<tr>

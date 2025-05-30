@@ -115,7 +115,7 @@
                         $today = date('Y-m-d');
                         echo $today;
 
-                        $list110 = $database->query("select  * from  schedule;");
+                        $list110 = $conn->query("select  * from  schedule;");
 
                         ?>
                         </p>
