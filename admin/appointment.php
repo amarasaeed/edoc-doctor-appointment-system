@@ -169,7 +169,7 @@
                                 
                             <?php 
                              
-                                $list11 = $database->query("select  * from  doctor order by docname asc;");
+                                $list11 =$conn->query("select  * from  doctor order by docname asc;");
 
                                 for ($y=0;$y<$list11->num_rows;$y++){
                                     $row00=$list11->fetch_assoc();
@@ -288,7 +288,7 @@
                             <?php
 
                                 
-                                $result= $database->query($sqlmain);
+                                $result= $conn->query($sqlmain);
 
                                 if($result->num_rows==0){
                                     echo '<tr>
@@ -422,7 +422,7 @@
                                     <option value="" disabled selected hidden>Choose Doctor Name from the list</option><br/>';
                                         
         
-                                        $list11 = $database->query("select  * from  doctor;");
+                                        $list11 = $conn->query("select  * from  doctor;");
         
                                         for ($y=0;$y<$list11->num_rows;$y++){
                                             $row00=$list11->fetch_assoc();
@@ -536,13 +536,13 @@
             '; 
         }elseif($action=='view'){
             $sqlmain= "select * from doctor where docid='$id'";
-            $result= $database->query($sqlmain);
+            $result= $conn->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["docname"];
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $spcil_res= $database->query("select sname from specialties where id='$spe'");
+            $spcil_res= $conn->query("select sname from specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
             $nic=$row['docnic'];

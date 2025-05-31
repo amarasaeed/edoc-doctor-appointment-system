@@ -46,7 +46,7 @@
 
     //import database
     include("../connection.php");
-    $userrow = $database->query("select * from doctor where docemail='$useremail'");
+    $userrow = $conn->query("select * from doctor where docemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["docid"];
     $username=$userfetch["docname"];
@@ -133,10 +133,10 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                $patientrow = $conn->query("select  * from  patient;");
+                                $doctorrow = $conn->query("select  * from  doctor;");
+                                $appointmentrow = $conn->query("select  * from  appointment where appodate>='$today';");
+                                $schedulerow = $conn->query("select  * from  schedule where scheduledate='$today';");
 
 
                                 ?>
@@ -265,13 +265,13 @@
             ';
         }elseif($action=='view'){
             $sqlmain= "select * from doctor where docid='$id'";
-            $result= $database->query($sqlmain);
+            $result= $conn->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["docname"];
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $spcil_res= $database->query("select sname from specialties where id='$spe'");
+            $spcil_res= $conn->query("select sname from specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
             $nic=$row['docnic'];
@@ -367,13 +367,13 @@
             ';
         }elseif($action=='edit'){
             $sqlmain= "select * from doctor where docid='$id'";
-            $result= $database->query($sqlmain);
+            $result= $conn->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["docname"];
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $spcil_res= $database->query("select sname from specialties where id='$spe'");
+            $spcil_res= $conn->query("select sname from specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
             $nic=$row['docnic'];
@@ -467,7 +467,7 @@
                                             <select name="spec" id="" class="box">';
                                                 
                 
-                                                $list11 = $database->query("select  * from  specialties;");
+                                                $list11 = $conn->query("select  * from  specialties;");
                 
                                                 for ($y=0;$y<$list11->num_rows;$y++){
                                                     $row00=$list11->fetch_assoc();

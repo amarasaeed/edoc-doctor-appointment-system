@@ -40,7 +40,7 @@
     //import database
     include("../connection.php");
     $sqlmain= "select * from doctor where docemail=?";
-    $stmt = $database->prepare($sqlmain);
+    $stmt = $conn->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
     $userrow = $stmt->get_result();
@@ -152,8 +152,8 @@
                             
                             <?php
                                 echo '<datalist id="patient">';
-                                $list11 = $database->query($sqlmain);
-                               //$list12= $database->query("select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=1;");
+                                $list11 = $conn->query($sqlmain);
+                               //$list12= $conn->query("select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=1;");
 
                                 for ($y=0;$y<$list11->num_rows;$y++){
                                     $row00=$list11->fetch_assoc();
@@ -275,7 +275,7 @@
                             <?php
 
                                 
-                                $result= $database->query($sqlmain);
+                                $result= $conn->query($sqlmain);
                                 //echo $sqlmain;
                                 if($result->num_rows==0){
                                     echo '<tr>
@@ -353,7 +353,7 @@
             $id=$_GET["id"];
             $action=$_GET["action"];
             $sqlmain= "select * from patient where pid=?";
-            $stmt = $database->prepare($sqlmain);
+            $stmt = $conn->prepare($sqlmain);
             $stmt->bind_param("i",$id);
             $stmt->execute();
             $result = $stmt->get_result();

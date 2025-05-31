@@ -320,7 +320,7 @@
             '; 
         }elseif($action=='view'){
             $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where  schedule.scheduleid=$id";
-            $result= $database->query($sqlmain);
+            $result= $conn->query($sqlmain);
             $row=$result->fetch_assoc();
             $docname=$row["docname"];
             $scheduleid=$row["scheduleid"];
@@ -333,7 +333,7 @@
 
 
             $sqlmain12= "select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.scheduleid=$id;";
-            $result12= $database->query($sqlmain12);
+            $result12= $conn->query($sqlmain12);
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup" style="width: 70%;">
@@ -433,7 +433,7 @@
                 
                 
                                          
-                                         $result= $database->query($sqlmain12);
+                                         $result= $conn->query($sqlmain12);
                 
                                          if($result->num_rows==0){
                                              echo '<tr>

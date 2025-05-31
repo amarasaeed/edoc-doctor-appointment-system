@@ -41,7 +41,7 @@
     include("../connection.php");
 
     $sqlmain= "select * from patient where pemail=?";
-    $stmt = $database->prepare($sqlmain);
+    $stmt = $conn->prepare($sqlmain);
     $stmt->bind_param("s",$useremail);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -128,8 +128,8 @@
                                         
                                         <?php
                                             echo '<datalist id="doctors">';
-                                            $list11 = $database->query("select DISTINCT * from  doctor;");
-                                            $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
+                                            $list11 = $conn->query("select DISTINCT * from  doctor;");
+                                            $list12 = $conn->query("select DISTINCT * from  schedule GROUP BY title;");
                                             
 
                                             
@@ -210,7 +210,7 @@
                                     $id=$_GET["id"];
 
                                     $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduleid=? order by schedule.scheduledate desc";
-                                    $stmt = $database->prepare($sqlmain);
+                                    $stmt = $conn->prepare($sqlmain);
                                     $stmt->bind_param("i", $id);
                                     $stmt->execute();
                                     $result = $stmt->get_result();
@@ -224,7 +224,7 @@
                                     $scheduletime=$row["scheduletime"];
                                     $sql2="select * from appointment where scheduleid=$id";
                                     //echo $sql2;
-                                     $result12= $database->query($sql2);
+                                     $result12= $conn->query($sql2);
                                      $apponum=($result12->num_rows)+1;
                                     
                                     echo '

@@ -266,7 +266,7 @@
             ';
         }elseif($action=='view'){
             $sqlmain= "select * from patient where pid=?";
-            $stmt = $database->prepare($sqlmain);
+            $stmt = $conn->prepare($sqlmain);
             $stmt->bind_param("i", $id);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -381,7 +381,7 @@
             ';
         }elseif($action=='edit'){
             $sqlmain= "select * from patient where pid=?";
-            $stmt = $database->prepare($sqlmain);
+            $stmt = $conn->prepare($sqlmain);
             $stmt->bind_param("i", $id);
             $stmt->execute();
             $result = $stmt->get_result();

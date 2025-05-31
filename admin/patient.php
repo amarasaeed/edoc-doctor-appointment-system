@@ -108,7 +108,7 @@
                             
                             <?php
                                 echo '<datalist id="patient">';
-                                $list11 = $database->query("select  pname,pemail from patient;");
+                                $list11 = $conn->query("select  pname,pemail from patient;");
 
                                 for ($y=0;$y<$list11->num_rows;$y++){
                                     $row00=$list11->fetch_assoc();
@@ -212,7 +212,7 @@
                             <?php
 
                                 
-                                $result= $database->query($sqlmain);
+                                $result= $conn->query($sqlmain);
 
                                 if($result->num_rows==0){
                                     echo '<tr>
@@ -290,7 +290,7 @@
         $id=$_GET["id"];
         $action=$_GET["action"];
             $sqlmain= "select * from patient where pid='$id'";
-            $result= $database->query($sqlmain);
+            $result= $conn->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["pname"];
             $email=$row["pemail"];

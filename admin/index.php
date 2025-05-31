@@ -108,7 +108,7 @@
                                     
                                     <?php
                                         echo '<datalist id="doctors">';
-                                        $list11 = $database->query("select  docname,docemail from  doctor;");
+                                        $list11 = $conn->query("select  docname,docemail from  doctor;");
         
                                         for ($y=0;$y<$list11->num_rows;$y++){
                                             $row00=$list11->fetch_assoc();
@@ -139,10 +139,10 @@
                                 echo $today;
 
 
-                                $patientrow = $database->query("select  * from  patient;");
-                                $doctorrow = $database->query("select  * from  doctor;");
-                                $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                                $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                                $patientrow = $conn->query("select  * from  patient;");
+                                $doctorrow = $conn->query("select  * from  doctor;");
+                                $appointmentrow = $conn->query("select  * from  appointment where appodate>='$today';");
+                                $schedulerow = $conn->query("select  * from  schedule where scheduledate='$today';");
 
 
                                 ?>
@@ -292,7 +292,7 @@
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
                                             $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today'  and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
 
-                                                $result= $database->query($sqlmain);
+                                                $result= $conn->query($sqlmain);
                 
                                                 if($result->num_rows==0){
                                                     echo '<tr>
@@ -387,7 +387,7 @@
                                             <?php
                                             $nextweek=date("Y-m-d",strtotime("+1 week"));
                                             $sqlmain= "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc"; 
-                                                $result= $database->query($sqlmain);
+                                                $result= $conn->query($sqlmain);
                 
                                                 if($result->num_rows==0){
                                                     echo '<tr>

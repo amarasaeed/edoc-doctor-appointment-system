@@ -112,7 +112,7 @@
                             
                             <?php
                                 echo '<datalist id="doctors">';
-                                $list11 = $database->query("select  docname,docemail from  doctor;");
+                                $list11 = $conn->query("select  docname,docemail from  doctor;");
 
                                 for ($y=0;$y<$list11->num_rows;$y++){
                                     $row00=$list11->fetch_assoc();
@@ -204,7 +204,7 @@
                             <?php
 
                                 
-                                $result= $database->query($sqlmain);
+                                $result= $conn->query($sqlmain);
 
                                 if($result->num_rows==0){
                                     echo '<tr>
@@ -230,7 +230,7 @@
                                     $name=$row["docname"];
                                     $email=$row["docemail"];
                                     $spe=$row["specialties"];
-                                    $spcil_res= $database->query("select sname from specialties where id='$spe'");
+                                    $spcil_res= $conn->query("select sname from specialties where id='$spe'");
                                     $spcil_array= $spcil_res->fetch_assoc();
                                     $spcil_name=$spcil_array["sname"];
                                     echo '<tr>
@@ -300,7 +300,7 @@
             ';
         }elseif($action=='view'){
             $sqlmain = "SELECT * FROM doctor WHERE docid=?";
-            $stmt = $database->prepare($sqlmain);
+            $stmt = $conn->prepare($sqlmain);
             $stmt->bind_param("i",$id);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -310,7 +310,7 @@
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $stmt = $database->prepare("select sname from specialties where id=?");
+            $stmt = $conn->prepare("select sname from specialties where id=?");
             $stmt->bind_param("s",$spe);
             $stmt->execute();
             $spcil_res = $stmt->get_result();
@@ -437,7 +437,7 @@
         }
         }elseif($action=='edit'){
             $sqlmain= "select * from doctor where docid=?";
-            $stmt = $database->prepare($sqlmain);
+            $stmt = $conn->prepare($sqlmain);
             $stmt->bind_param("i",$id);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -448,7 +448,7 @@
             $spe=$row["specialties"];
             
             $sqlmain= "select sname from specialties where id='?";
-            $stmt = $database->prepare($sqlmain);
+            $stmt = $conn->prepare($sqlmain);
             $stmt->bind_param("s",$spe);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -545,7 +545,7 @@
                                             <select name="spec" id="" class="box">';
                                                 
                 
-                                                $list11 = $database->query("select  * from  specialties;");
+                                                $list11 = $conn->query("select  * from  specialties;");
                 
                                                 for ($y=0;$y<$list11->num_rows;$y++){
                                                     $row00=$list11->fetch_assoc();

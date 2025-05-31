@@ -408,7 +408,7 @@
             '; 
         }elseif($action=='view'){
             $sqlmain= "select * from doctor where docid=?";
-            $stmt = $database->prepare($sqlmain);
+            $stmt = $conn->prepare($sqlmain);
             $stmt->bind_param("i",$id);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -418,7 +418,7 @@
             $spe=$row["specialties"];
             
             $sqlmain= "select sname from specialties where id=?";
-            $stmt = $database->prepare($sqlmain);
+            $stmt = $conn->prepare($sqlmain);
             $stmt->bind_param("s",$spe);
             $stmt->execute();
             $spcil_res = $stmt->get_result();

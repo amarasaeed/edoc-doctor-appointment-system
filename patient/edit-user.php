@@ -10,7 +10,7 @@
 
     if($_POST){
         //print_r($_POST);
-        $result= $database->query("select * from webuser");
+        $result= $conn->query("select * from webuser");
         $name=$_POST['name'];
         $nic=$_POST['nic'];
         $oldemail=$_POST["oldemail"];
@@ -25,11 +25,11 @@
             $error='3';
 
             $sqlmain= "select patient.pid from patient inner join webuser on patient.pemail=webuser.email where webuser.email=?;";
-            $stmt = $database->prepare($sqlmain);
+            $stmt = $conn->prepare($sqlmain);
             $stmt->bind_param("s",$email);
             $stmt->execute();
             $result = $stmt->get_result();
-            //$resultqq= $database->query("select * from doctor where docid='$id';");
+            //$resultqq= $conn->query("select * from doctor where docid='$id';");
             if($result->num_rows==1){
                 $id2=$result->fetch_assoc()["pid"];
             }else{
@@ -39,7 +39,7 @@
 
             if($id2!=$id){
                 $error='1';
-                //$resultqq1= $database->query("select * from doctor where docemail='$email';");
+                //$resultqq1= $conn->query("select * from doctor where docemail='$email';");
                 //$did= $resultqq1->fetch_assoc()["docid"];
                 //if($resultqq1->num_rows==1){
                     
@@ -47,10 +47,10 @@
 
                 //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
                 $sql1="update patient set pemail='$email',pname='$name',ppassword='$password',pnic='$nic',ptel='$tele',paddress='$address' where pid=$id ;";
-                $database->query($sql1);
+                $conn->query($sql1);
                 echo $sql1;
                 $sql1="update webuser set email='$email' where email='$oldemail' ;";
-                $database->query($sql1);
+                $conn->query($sql1);
                 echo $sql1;
                 
                 $error= '4';
